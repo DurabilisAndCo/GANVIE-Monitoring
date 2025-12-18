@@ -1,0 +1,2 @@
+collected_at,zone,lat,lon,season,ph,turbidity,conductivity,e_coli,coliforms,risk_level,comments
+2025-01-12T09:00:00,Ganvié-Centre,6.445,2.445,Sèche,6.8,15.2,850,45,120,A_surveiller,Exemple
