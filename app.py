@@ -98,11 +98,18 @@ NEED_COLS = {
 def banner():
     st.markdown(
         """
-        <div class="banner">
-          <div class="banner-title">🌊 Dashboard Ganvié Durable 2030 – Phase 1 : Diagnostic participatif
-            <span class="badge">Powered by Durabilis & Co. Bénin</span>
+        <div class="banner" style="display: flex; align-items: center; gap: 20px;">
+          <div style="flex-shrink: 0;">
+            <div style="width: 80px; height: 80px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 800; border: 2px solid rgba(255,255,255,0.5);">
+              D
+            </div>
           </div>
-          <div class="banner-sub">Données en temps réel (démo) • Ménages • Eau & Environnement • Cartes • Insights & priorités</div>
+          <div>
+            <div class="banner-title">🌊 Dashboard Ganvié Durable 2030 – Phase 1 : Diagnostic participatif
+              <span class="badge">Powered by Durabilis & Co. Bénin</span>
+            </div>
+            <div class="banner-sub">Données en temps réel (démo) • Ménages • Eau & Environnement • Cartes • Insights & priorités</div>
+          </div>
         </div>
         """,
         unsafe_allow_html=True
@@ -360,6 +367,52 @@ def report_pdf_bytes(meta, kpis, tz_df):
     buff.seek(0)
     return buff.getvalue()
 
+def economic_model():
+    # 💰 Modèle Économique – Répartition des Revenus
+    # Données fournies par l'utilisateur
+    revenu_data = pd.DataFrame([
+        {"Source": "Vente produits (marchés Libreville)", "Pourcentage": 45},
+        {"Source": "Transformation (jus, chips)", "Pourcentage": 30},
+        {"Source": "Éco-tourisme (pêche, pédagogique)", "Pourcentage": 15},
+        {"Source": "Services (formation, conseil)", "Pourcentage": 10}
+    ])
+    
+    c1, c2 = st.columns([1, 1])
+    
+    with c1:
+        st.markdown('<div class="section-header">💰 Répartition des Revenus (Cible)</div>', unsafe_allow_html=True)
+        fig = px.pie(revenu_data, values="Pourcentage", names="Source", 
+                     color_discrete_sequence=px.colors.qualitative.Pastel,
+                     hole=0.4)
+        fig.update_layout(showlegend=True, legend=dict(orientation="h", yanchor="bottom", y=-0.5, xanchor="center", x=0.5))
+        st.plotly_chart(fig, use_container_width=True)
+
+    with c2:
+        st.markdown('<div class="section-header">📊 Indicateurs Durabilis</div>', unsafe_allow_html=True)
+        # Translation of requested metrics
+        metrics = [
+            ("Actifs / Matériel", "0", "Assets"),
+            ("Relevés Capteurs", "0", "Sensor Readings"),
+            ("Inspections Ruches", "0", "Hive Inspections"),
+            ("Suivi Lapins", "0", "Rabbit Logs"),
+            ("Suivi Vivoplant", "0", "Vivoplant Logs"),
+            ("Sources de Revenus", "0", "Revenue Streams"),
+            ("Phases Roadmap", "0", "Roadmap Phases"),
+            ("Indicateurs d'Impact", "0", "Impact Indicators"),
+            ("Membres Comité", "0", "Committee Members")
+        ]
+        
+        # Display as a grid of mini-cards
+        cols = st.columns(3)
+        for i, (label, val, en_hint) in enumerate(metrics):
+            with cols[i % 3]:
+                st.markdown(f"""
+                <div style="background: white; padding: 12px; border-radius: 12px; margin-bottom: 12px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border: 1px solid rgba(0,0,0,0.05);">
+                    <div style="font-size: 0.8rem; color: #64748b; font-weight: 600; min-height: 2.4rem; display: flex; align-items: center; justify-content: center;">{label}</div>
+                    <div style="font-size: 1.4rem; font-weight: 800; color: #3b82f6;">{val}</div>
+                </div>
+                """, unsafe_allow_html=True)
+
 # ------------------ UI ------------------
 banner()
 
@@ -367,7 +420,7 @@ h, w, meta = filtered_data()
 target_total = db.get_target(conn)
 k = compute_kpis(h, target_total)
 
-tabs = st.tabs(["🏠 Vue d'ensemble", "👥 Diagnostic ménages", "💧 Eau & Environnement", "🗺️ Cartes & Zones", "💡 Insights & Priorités", "📄 Rapport"])
+tabs = st.tabs(["🏠 Vue d'ensemble", "💰 Modèle Économique", "👥 Diagnostic ménages", "💧 Eau & Environnement", "🗺️ Cartes & Zones", "💡 Insights & Priorités", "📄 Rapport"])
 
 # 1) Accueil
 with tabs[0]:
@@ -396,8 +449,12 @@ with tabs[0]:
     else:
         st.info("Aucune donnée ménage pour calculer la répartition des besoins.")
 
-# 2) Diagnostic ménages
+# 2) Modèle Économique
 with tabs[1]:
+    economic_model()
+
+# 3) Diagnostic ménages
+with tabs[2]:
     st.markdown("### Comparaisons par zone")
     if len(h):
         tmp = h.copy()
@@ -431,8 +488,8 @@ with tabs[1]:
     else:
         st.info("Aucune donnée ménage sur la période / filtres.")
 
-# 3) Eau & Environnement
-with tabs[2]:
+# 4) Eau & Environnement
+with tabs[3]:
     st.markdown("### Carte des points de prélèvement (codes couleur conforme / à surveiller / à risque)")
     water_map(w)
 
@@ -452,8 +509,8 @@ with tabs[2]:
     else:
         st.info("Aucune donnée d’eau sur la période / filtres.")
 
-# 4) Cartes & Zones
-with tabs[3]:
+# 5) Cartes & Zones
+with tabs[4]:
     st.markdown("### Carte des ménages (couleur = intensité des besoins)")
     households_map(h)
 
@@ -464,8 +521,8 @@ with tabs[3]:
     else:
         st.info("Aucune donnée ménage sur la période / filtres.")
 
-# 5) Insights
-with tabs[4]:
+# 6) Insights
+with tabs[5]:
     st.markdown("### Tendances & recommandations automatiques (règles)")
     insights(h, w)
 
@@ -482,8 +539,8 @@ with tabs[4]:
     else:
         st.info("Aucune donnée ménage pour la simulation.")
 
-# 6) Rapport
-with tabs[5]:
+# 7) Rapport
+with tabs[6]:
     st.markdown("### Générer un rapport (PDF) – 1 clic")
     st.caption("Dans l’annexe, le dashboard prévoit un export PDF/PPT. Ici: PDF minimal (KPIs + top zones).")
     tz = top_zones(h)
