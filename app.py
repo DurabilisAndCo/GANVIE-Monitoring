@@ -237,7 +237,7 @@ def water_map(w):
         "A_surveiller": [255, 165, 0, 180],
         "A_risque": [255, 0, 0, 180],
     }
-    df["color"] = df["risk_level"].map(color).fillna([120,120,120,180])
+    df["color"] = df["risk_level"].apply(lambda x: color.get(x, [120,120,120,180]))
     layer = pdk.Layer(
         "ScatterplotLayer",
         data=df,
