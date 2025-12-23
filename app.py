@@ -449,6 +449,17 @@ with tabs[2]:
         with c2:
             fig2 = px.box(w, x="season", y="e_coli", points="all", labels={"season":"Saison", "e_coli":"E. coli (CFU/100ml)"})
             st.plotly_chart(fig2, use_container_width=True)
+        
+        with st.expander("ℹ️ Comment lire ces graphiques (Boîtes à moustaches) ?", expanded=True):
+            st.markdown("""
+            Ces graphiques montrent la **distribution des mesures** pour chaque saison :
+            - **La ligne au milieu** de la boîte indique la *médiane* (la valeur centrale).
+            - **La boîte colorée** regroupe 50% des échantillons (ceux qui sont autour de la moyenne).
+            - **Les points bleus** sont les mesures individuelles réelles.
+            - **Les moustaches** (traits verticaux) montrent l'étendue normale des données.
+            
+            *Cela permet de voir si la qualité de l'eau est stable ou très variable selon la saison.*
+            """)
 
         st.markdown("### Fiches automatiques (derniers prélèvements)")
         latest = w.sort_values("collected_at").groupby(["zone"]).tail(1).sort_values("risk_level")
