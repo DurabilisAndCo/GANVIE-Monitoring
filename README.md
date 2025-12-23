@@ -1,37 +1,54 @@
 # Ganvié Durable 2030 – Dashboard (Streamlit)
 
-Ce dépôt fournit une **base de dashboard** conforme à l'annexe “Modèle de tableau de bord automatisé” de la note de proposition :
-- Menu latéral + filtres (période, zone, vulnérabilité, besoins)
-- Onglets : Accueil, Diagnostic ménages, Eau & Environnement, Cartes & Zones, Insights & priorités, Rapport (PDF)  
-- Base de données locale SQLite (démo) + génération de données fictives
+Dashboard de monitoring pour le projet **Ganvié Durable 2030** – suivi des ménages et qualité de l'eau à Ganvié, Bénin.
 
-## 1) Lancer en local
+## 🚀 Déploiement sur Streamlit Cloud
+
+1. Fork ou clonez ce repo
+2. Allez sur [share.streamlit.io](https://share.streamlit.io)
+3. Connectez-vous avec GitHub
+4. Cliquez sur **"New app"** → sélectionnez ce repo → `app.py` → **Deploy**
+
+## 💻 Lancer en local
+
 ```bash
+# Créer un environnement virtuel
 python -m venv .venv
-# Windows: .venv\Scripts\activate
-# Mac/Linux: source .venv/bin/activate
+source .venv/bin/activate  # Mac/Linux
+# .venv\Scripts\activate   # Windows
+
+# Installer les dépendances
 pip install -r requirements.txt
+
+# Lancer le dashboard
 streamlit run app.py
 ```
 
-## 2) Déployer sur Streamlit Community Cloud
-1. Poussez ce dossier sur GitHub
-2. Streamlit Cloud → **New app** → choisissez le repo → `app.py` → Deploy
+## 📊 Fonctionnalités
 
-## 3) Base de données
-SQLite local: `ganvie_durable.db` (créé automatiquement au lancement).
+- **Vue d'ensemble** : KPIs clés (eau, assainissement, scolarisation)
+- **Diagnostic ménages** : Comparaisons par zone, vulnérabilité
+- **Eau & Environnement** : Carte des prélèvements, qualité de l'eau
+- **Cartes & Zones** : Visualisation géographique des ménages
+- **Insights & Priorités** : Recommandations automatiques
+- **Rapport automatisé** : Export PDF et CSV
 
-> Pour un usage multi-utilisateurs et une ingestion temps réel depuis Kobo/ODK, migrez vers Postgres (Supabase/Neon) + API.
+## 🗂️ Structure
 
-## 4) Données de démo
-Dans la sidebar, cliquez **“Générer des données fictives”** (ou lancez `python seed_data.py`).
+```
+├── app.py              # Application Streamlit
+├── database.py         # Schéma SQLite et accès données
+├── seed_data.py        # Génération de données fictives
+├── requirements.txt    # Dépendances Python
+└── .streamlit/
+    └── config.toml     # Configuration Streamlit
+```
 
-## 5) Structure
-- `app.py` : application Streamlit (dashboard)
-- `database.py` : schéma + accès SQLite
-- `seed_data.py` : génération de données fictives
+## ⚠️ Note pour la production
 
-## 6) À brancher ensuite (phase production)
-- Ingestion Kobo/ODK → API (FastAPI) → Postgres/PostGIS
-- Couches SIG (GeoJSON) + polygones zones/quartiers
-- Rapport PDF/PPT enrichi (cartes + graphes) + authentification
+La base SQLite (`ganvie_durable.db`) est locale et éphémère sur Streamlit Cloud.  
+Pour un usage en production, migrez vers **Supabase** ou **Neon** (Postgres gratuit).
+
+---
+
+*Powered by Durabilis & Co. Bénin* 🌊
