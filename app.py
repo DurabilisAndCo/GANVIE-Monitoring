@@ -12,32 +12,71 @@ st.set_page_config(
     layout="wide",
 )
 
-# ------------------ Styling (inspiré du modèle annexe) ------------------
+# ------------------ Styling amélioré ------------------
 CSS = """
 <style>
-.block-container {padding-top: 1.2rem;}
-.banner {
-  border-radius: 18px;
-  padding: 18px 18px;
-  background: linear-gradient(90deg, rgba(45,51,129,.92), rgba(44,110,161,.86), rgba(68,160,201,.86));
-  color: white;
-  box-shadow: 0 10px 26px rgba(0,0,0,.22);
-  margin-bottom: 14px;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --bg-card: rgba(255,255,255,0.8);
+    --text-secondary: #64748b;
+    --shadow-soft: 0 4px 20px rgba(0,0,0,0.08);
+    --shadow-medium: 0 8px 30px rgba(0,0,0,0.12);
 }
-.banner-title {font-size: 1.45rem; font-weight: 800; margin: 0;}
-.banner-sub {opacity:.92; margin-top: 6px; font-size: .92rem;}
-.badge {display:inline-block; padding: 2px 10px; border-radius: 999px; background: rgba(255,255,255,.18); margin-left: 8px; font-size:.78rem;}
-.kpi {border-radius: 16px; padding: 14px 14px; border: 1px solid rgba(0,0,0,.08); background: rgba(255,255,255,.85);}
-.kpi-label {opacity: .7; font-size:.86rem;}
-.kpi-value {font-weight: 800; font-size: 1.45rem; margin-top: 2px;}
-.kpi-hint {opacity: .75; font-size:.82rem; margin-top: 6px;}
-.rec {border-radius: 14px; padding: 12px 12px; border: 1px solid rgba(0,0,0,.08); background: rgba(255,255,255,.8);}
-.rec-title {font-weight: 750; margin-bottom: 6px;}
-.tag {display:inline-block; padding: 2px 10px; border-radius: 999px; font-size:.78rem; margin-right: 6px;}
-.tag-ok {background: rgba(0,255,127,.12); border: 1px solid rgba(0,255,127,.25);}
-.tag-warn {background: rgba(255,165,0,.12); border: 1px solid rgba(255,165,0,.25);}
-.tag-bad {background: rgba(255,0,0,.12); border: 1px solid rgba(255,0,0,.25);}
-.small-muted {opacity:.75; font-size:.85rem;}
+
+html, body, [class*="css"] { font-family: 'Inter', sans-serif !important; }
+.block-container { padding-top: 1rem; }
+
+.banner {
+    border-radius: 20px;
+    padding: 24px 28px;
+    background: linear-gradient(135deg, #2c3e7d 0%, #2c6ea1 50%, #44a0c9 100%);
+    color: white;
+    box-shadow: var(--shadow-medium);
+    margin-bottom: 20px;
+}
+.banner-title { font-size: 1.55rem; font-weight: 800; margin: 0; }
+.banner-sub { opacity: 0.9; margin-top: 8px; font-size: 0.95rem; }
+.badge { display: inline-block; padding: 4px 14px; border-radius: 999px; background: rgba(255,255,255,0.2); margin-left: 12px; font-size: 0.8rem; font-weight: 600; }
+
+.kpi {
+    border-radius: 18px;
+    padding: 20px;
+    background: var(--bg-card);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.4);
+    box-shadow: var(--shadow-soft);
+    transition: all 0.3s ease;
+}
+.kpi:hover { transform: translateY(-4px); box-shadow: var(--shadow-medium); }
+.kpi-icon { font-size: 1.6rem; margin-bottom: 6px; }
+.kpi-label { color: var(--text-secondary); font-size: 0.82rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
+.kpi-value { font-weight: 800; font-size: 1.7rem; color: #1e293b; margin-top: 4px; }
+.kpi-hint { color: var(--text-secondary); font-size: 0.78rem; margin-top: 8px; }
+
+.rec { border-radius: 16px; padding: 16px 18px; background: var(--bg-card); box-shadow: var(--shadow-soft); margin-bottom: 12px; transition: all 0.2s ease; }
+.rec:hover { transform: translateX(4px); }
+.rec-title { font-weight: 650; margin-bottom: 4px; line-height: 1.5; }
+
+.tag { display: inline-flex; align-items: center; padding: 4px 12px; border-radius: 999px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-right: 8px; }
+.tag-ok { background: rgba(16,185,129,0.2); color: #059669; border: 1px solid rgba(16,185,129,0.3); }
+.tag-warn { background: rgba(245,158,11,0.2); color: #d97706; border: 1px solid rgba(245,158,11,0.3); }
+.tag-bad { background: rgba(239,68,68,0.2); color: #dc2626; border: 1px solid rgba(239,68,68,0.3); }
+
+.small-muted { color: var(--text-secondary); font-size: 0.82rem; margin-top: 6px; }
+
+.map-legend { display: flex; gap: 16px; padding: 12px 16px; background: white; border-radius: 10px; box-shadow: var(--shadow-soft); margin-top: 12px; flex-wrap: wrap; }
+.legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.82rem; font-weight: 500; }
+.legend-dot { width: 12px; height: 12px; border-radius: 50%; }
+
+.stTabs [data-baseweb="tab-list"] { gap: 8px; background: rgba(255,255,255,0.5); padding: 6px; border-radius: 14px; }
+.stTabs [data-baseweb="tab"] { border-radius: 10px; padding: 10px 20px; font-weight: 600; }
+.stTabs [aria-selected="true"] { background: white; box-shadow: var(--shadow-soft); }
+
+section[data-testid="stSidebar"] { background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%); }
+
+#MainMenu {visibility: hidden;}
+footer {visibility: hidden;}
 </style>
 """
 st.markdown(CSS, unsafe_allow_html=True)
@@ -69,10 +108,12 @@ def banner():
         unsafe_allow_html=True
     )
 
-def kpi(col, label, value, hint=""):
+def kpi(col, label, value, hint="", icon=""):
+    icon_html = f'<div class="kpi-icon">{icon}</div>' if icon else ""
     with col:
         st.markdown(f"""
         <div class="kpi">
+          {icon_html}
           <div class="kpi-label">{label}</div>
           <div class="kpi-value">{value}</div>
           <div class="kpi-hint">{hint}</div>
@@ -81,10 +122,10 @@ def kpi(col, label, value, hint=""):
 
 def tag(level):
     if level == "OK":
-        return '<span class="tag tag-ok">OK</span>'
+        return '<span class="tag tag-ok">✓ OK</span>'
     if level == "ATTENTION":
-        return '<span class="tag tag-warn">ATTENTION</span>'
-    return '<span class="tag tag-bad">CRITIQUE</span>'
+        return '<span class="tag tag-warn">⚠ ATTENTION</span>'
+    return '<span class="tag tag-bad">⚠ CRITIQUE</span>'
 
 def parse_dt(s):
     try:
@@ -326,18 +367,18 @@ h, w, meta = filtered_data()
 target_total = db.get_target(conn)
 k = compute_kpis(h, target_total)
 
-tabs = st.tabs(["Accueil – Vue d’ensemble", "Diagnostic ménages", "Eau & Environnement", "Cartes & Zones", "Insights & Priorités", "Rapport automatisé"])
+tabs = st.tabs(["🏠 Vue d'ensemble", "👥 Diagnostic ménages", "💧 Eau & Environnement", "🗺️ Cartes & Zones", "💡 Insights & Priorités", "📄 Rapport"])
 
 # 1) Accueil
 with tabs[0]:
     c1, c2, c3, c4, c5 = st.columns(5)
-    kpi(c1, "% accès eau améliorée", f"{k['pct_water']:.1f}%", "Moyenne sur ménages filtrés")
-    kpi(c2, "% assainissement", f"{k['pct_san']:.1f}%", "Moyenne sur ménages filtrés")
-    kpi(c3, "Taux de scolarisation (proxy)", f"{k['pct_school']:.1f}%", "Au moins 1 enfant scolarisé")
-    kpi(c4, "% ménages ≥ 3 besoins", f"{k['pct_3needs']:.1f}%", "Indicateur de multi‑vulnérabilité")
-    kpi(c5, "Ménages enquêtés", f"{k['surveyed']}/{k['target']}", "Cible paramétrable")
+    kpi(c1, "Accès eau améliorée", f"{k['pct_water']:.1f}%", "Moyenne sur ménages filtrés", "💧")
+    kpi(c2, "Assainissement", f"{k['pct_san']:.1f}%", "Moyenne sur ménages filtrés", "🚽")
+    kpi(c3, "Scolarisation (proxy)", f"{k['pct_school']:.1f}%", "Au moins 1 enfant scolarisé", "📚")
+    kpi(c4, "Ménages ≥ 3 besoins", f"{k['pct_3needs']:.1f}%", "Multi‑vulnérabilité", "⚠️")
+    kpi(c5, "Ménages enquêtés", f"{k['surveyed']}/{k['target']}", "Cible paramétrable", "📋")
 
-    st.markdown("### Évolution de la collecte (ménages)")
+    st.markdown("### 📈 Évolution de la collecte (ménages)")
     if len(h):
         hh_daily = h.set_index("collected_at").resample("D")["household_id"].count().reset_index()
         hh_daily["cumul"] = hh_daily["household_id"].cumsum()
@@ -346,7 +387,7 @@ with tabs[0]:
     else:
         st.info("Aucune donnée ménage sur la période / filtres.")
 
-    st.markdown("### Répartition des besoins (ménages)")
+    st.markdown("### 🎯 Répartition des besoins (ménages)")
     if len(h):
         need_sum = {k: int(h[v].fillna(0).sum()) for k, v in NEED_COLS.items()}
         df_need = pd.DataFrame({"Besoin": list(need_sum.keys()), "Nombre": list(need_sum.values())}).sort_values("Nombre", ascending=False)
