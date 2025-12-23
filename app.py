@@ -368,19 +368,21 @@ def report_pdf_bytes(meta, kpis, tz_df):
     return buff.getvalue()
 
 def economic_model():
-    # 💰 Modèle Économique – Répartition des Revenus
-    # Données fournies par l'utilisateur
+    # 💰 Modèle Économique – (Structure pour Ganvié à définir)
+    # Exemple de structure générique
     revenu_data = pd.DataFrame([
-        {"Source": "Vente produits (marchés Libreville)", "Pourcentage": 45},
-        {"Source": "Transformation (jus, chips)", "Pourcentage": 30},
-        {"Source": "Éco-tourisme (pêche, pédagogique)", "Pourcentage": 15},
-        {"Source": "Services (formation, conseil)", "Pourcentage": 10}
+        {"Source": "Ventes (Produits locaux)", "Pourcentage": 40},
+        {"Source": "Transformation", "Pourcentage": 30},
+        {"Source": "Tourisme (Ganvié)", "Pourcentage": 20},
+        {"Source": "Services", "Pourcentage": 10}
     ])
+    
+    st.markdown('<div class="section-header">💰 Modèle Économique (À adapter pour Ganvié)</div>', unsafe_allow_html=True)
     
     c1, c2 = st.columns([1, 1])
     
     with c1:
-        st.markdown('<div class="section-header">💰 Répartition des Revenus (Cible)</div>', unsafe_allow_html=True)
+        st.caption("Répartition hypothétique des revenus")
         fig = px.pie(revenu_data, values="Pourcentage", names="Source", 
                      color_discrete_sequence=px.colors.qualitative.Pastel,
                      hole=0.4)
@@ -388,30 +390,13 @@ def economic_model():
         st.plotly_chart(fig, use_container_width=True)
 
     with c2:
-        st.markdown('<div class="section-header">📊 Indicateurs Durabilis</div>', unsafe_allow_html=True)
-        # Translation of requested metrics
-        metrics = [
-            ("Actifs / Matériel", "0", "Assets"),
-            ("Relevés Capteurs", "0", "Sensor Readings"),
-            ("Inspections Ruches", "0", "Hive Inspections"),
-            ("Suivi Lapins", "0", "Rabbit Logs"),
-            ("Suivi Vivoplant", "0", "Vivoplant Logs"),
-            ("Sources de Revenus", "0", "Revenue Streams"),
-            ("Phases Roadmap", "0", "Roadmap Phases"),
-            ("Indicateurs d'Impact", "0", "Impact Indicators"),
-            ("Membres Comité", "0", "Committee Members")
-        ]
-        
-        # Display as a grid of mini-cards
-        cols = st.columns(3)
-        for i, (label, val, en_hint) in enumerate(metrics):
-            with cols[i % 3]:
-                st.markdown(f"""
-                <div style="background: white; padding: 12px; border-radius: 12px; margin-bottom: 12px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border: 1px solid rgba(0,0,0,0.05);">
-                    <div style="font-size: 0.8rem; color: #64748b; font-weight: 600; min-height: 2.4rem; display: flex; align-items: center; justify-content: center;">{label}</div>
-                    <div style="font-size: 1.4rem; font-weight: 800; color: #3b82f6;">{val}</div>
-                </div>
-                """, unsafe_allow_html=True)
+        st.info("ℹ️ Les indicateurs agricoles (Ruches, Lapins, etc.) sont spécifiques au projet CAYF et ont été retirés.")
+        st.markdown("Pour Ganvié, nous pourrions afficher par exemple :")
+        st.markdown("""
+        - 🐟 Revenus Pêche
+        - 🛶 Revenus Transport/Tourisme
+        - 🏙️ Taxes locales / Contribution ménages
+        """)
 
 # ------------------ UI ------------------
 banner()
